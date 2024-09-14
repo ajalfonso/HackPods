@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
 
 const UserInfoPage = () => {
   const [pronouns, setPronouns] = useState('');
@@ -10,84 +10,91 @@ const UserInfoPage = () => {
   const [bio, setBio] = useState('');
 
   return (
-    <View style={styles.container}>
-      <View style={styles.headerBG}>
-        <View style={styles.header}>
-          <View style={styles.headerTextContainer}>
-            <Text style={styles.title}>info</Text>
-            <Text style={styles.subtitle}>Introduce yourself</Text>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView contentContainerStyle={styles.container}>
+          <View style={styles.headerBG}>
+            <View style={styles.header}>
+              <View style={styles.headerTextContainer}>
+                <Text style={styles.title}>info</Text>
+                <Text style={styles.subtitle}>Introduce yourself</Text>
+              </View>
+            </View>
           </View>
-        </View>
-      </View>
-      <View style={styles.body}>
-        <View style={styles.bodySection}>
-          {/* Pronouns */}
-          <Text style={styles.inputHeader}>Pronouns</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="e.g., They/Them"
-            value={pronouns}
-            onChangeText={setPronouns}
-          />
+          <View style={styles.body}>
+            <View style={styles.bodySection}>
+              {/* Pronouns */}
+              <Text style={styles.inputHeader}>Pronouns</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="e.g., They/Them"
+                value={pronouns}
+                onChangeText={setPronouns}
+              />
 
-          {/* Birthday */}
-          <Text style={styles.inputHeader}>Birthday</Text>
-          <View style={styles.dateInputContainer}>
-            <TextInput
-              style={styles.dateInput}
-              placeholder="MM"
-              value={month}
-              onChangeText={setMonth}
-              keyboardType="numeric"
-              maxLength={2} // Limit to 2 digits for month
-            />
-            <TextInput
-              style={styles.dateInput}
-              placeholder="DD"
-              value={day}
-              onChangeText={setDay}
-              keyboardType="numeric"
-              maxLength={2} // Limit to 2 digits for day
-            />
-            <TextInput
-              style={styles.dateInput}
-              placeholder="YYYY"
-              value={year}
-              onChangeText={setYear}
-              keyboardType="numeric"
-              maxLength={4} // Limit to 4 digits for year
-            />
+              {/* Birthday */}
+              <Text style={styles.inputHeader}>Birthday</Text>
+              <View style={styles.dateInputContainer}>
+                <TextInput
+                  style={styles.dateInput}
+                  placeholder="MM"
+                  value={month}
+                  onChangeText={setMonth}
+                  keyboardType="numeric"
+                  maxLength={2} // Limit to 2 digits for month
+                />
+                <TextInput
+                  style={styles.dateInput}
+                  placeholder="DD"
+                  value={day}
+                  onChangeText={setDay}
+                  keyboardType="numeric"
+                  maxLength={2} // Limit to 2 digits for day
+                />
+                <TextInput
+                  style={styles.dateInput}
+                  placeholder="YYYY"
+                  value={year}
+                  onChangeText={setYear}
+                  keyboardType="numeric"
+                  maxLength={4} // Limit to 4 digits for year
+                />
+              </View>
+
+              {/* School */}
+              <Text style={styles.inputHeader}>School</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Your School Name"
+                value={school}
+                onChangeText={setSchool}
+              />
+
+              {/* Bio */}
+              <Text style={styles.inputHeader}>Bio</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="A bit about you"
+                value={bio}
+                onChangeText={setBio}
+                multiline
+                numberOfLines={4}
+              />
+            </View>
+
+            {/* Circles at the bottom */}
+            <View style={styles.footer}>
+              <View style={styles.circle}></View>
+              <View style={styles.circle}></View>
+              <View style={styles.circle}></View>
+            </View>
           </View>
-
-          {/* School */}
-          <Text style={styles.inputHeader}>School</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Your School Name"
-            value={school}
-            onChangeText={setSchool}
-          />
-
-          {/* Bio */}
-          <Text style={styles.inputHeader}>Bio</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="A bit about you"
-            value={bio}
-            onChangeText={setBio}
-            multiline
-            numberOfLines={4}
-          />
-        </View>
-
-        {/* Circles at the bottom */}
-        <View style={styles.footer}>
-          <View style={styles.circle}></View>
-          <View style={styles.circle}></View>
-          <View style={styles.circle}></View>
-        </View>
-      </View>
-    </View>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -100,7 +107,7 @@ const styles = StyleSheet.create({
     flex: 0.5,
     backgroundColor: '#00B207',
     alignItems: 'center',
-    justifyContent: 'center', // Center the items within headerBG vertically
+    justifyContent: 'center',
   },
   header: {
     position: 'absolute',
@@ -109,25 +116,25 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     backgroundColor: 'white',
-    borderBottomLeftRadius: 30, // Rounded bottom-left corner
+    borderBottomLeftRadius: 30,
     alignItems: 'center',
-    justifyContent: 'flex-end', // Align the text container to the bottom
+    justifyContent: 'flex-end',
   },
   headerTextContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-end', // Align text to the bottom of the container
-    justifyContent: 'space-between', // Space the title and subtitle
-    marginBottom: 20, // Adds space between the bottom of the header
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    marginBottom: 20,
   },
   title: {
-    fontSize: 32, // Larger font size
+    fontSize: 32,
     fontWeight: 'bold',
-    color: 'black', // Black text for title
-    marginRight: 10, // Space between title and subtitle
+    color: 'black',
+    marginRight: 10,
   },
   subtitle: {
-    fontSize: 20, // Larger font size for subtitle
-    color: 'black', // Black text for subtitle
+    fontSize: 20,
+    color: 'black',
     marginLeft: 60,
   },
   bodySection: {
@@ -135,27 +142,27 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     borderBottomRightRadius: 30,
     borderBottomLeftRadius: 30,
-    padding: 20, // Added padding to body section
+    padding: 20,
   },
   body: {
     paddingRight: 20,
   },
   inputHeader: {
     fontSize: 16,
-    color: 'white', // Input header text color changed to white
+    color: 'white',
     marginBottom: 5,
   },
   input: {
     width: '100%',
     padding: 10,
     marginBottom: 15,
-    backgroundColor: 'white', // Input field background color set to white
+    backgroundColor: 'white',
     borderRadius: 5,
   },
   dateInputContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 15, // Reduce vertical spacing for birthday inputs
+    marginBottom: 15,
   },
   dateInput: {
     flex: 1,
@@ -163,7 +170,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     backgroundColor: 'white',
     borderRadius: 5,
-    textAlign: 'center', // Center text in input
+    textAlign: 'center',
   },
   footer: {
     flexDirection: 'row',

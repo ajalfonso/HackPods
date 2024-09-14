@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Platform
+} from 'react-native';
 import { Link } from "expo-router";
 
 const LoginPage = () => {
@@ -11,48 +22,53 @@ const LoginPage = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topContainer}>
-        <Image source={require('../assets/LoginAssets/Logo.png')} style={styles.logo} />
-      </View>
-      <View style={styles.bottomContainer}>
-        <Text style={styles.title}>Login</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          placeholderTextColor="#A1A1A1"
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          keyboardType="email-address"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="#A1A1A1"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry={true}
-        />
-        
-        {/* Custom Login Button */}
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginButtonText}>Log In</Text>
-        </TouchableOpacity>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'height' : undefined}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.inner}>
+          <View style={styles.topContainer}>
+            <Image source={require('../assets/LoginAssets/Logo.png')} style={styles.logo} />
+          </View>
+          <View style={styles.bottomContainer}>
+            <Text style={styles.title}>Login</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              placeholderTextColor="#A1A1A1"
+              value={password}
+              onChangeText={setPassword}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              placeholderTextColor="#A1A1A1"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={true}
+            />
 
-        <View style={styles.socialLogin}>
-          <TouchableOpacity onPress={() => console.log('Login with Google')}>
-            <Image source={require('../assets/LoginAssets/Google.png')} style={styles.socialIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log('Login with GitHub')}>
-            <Image source={require('../assets/images/icon.png')} style={styles.socialIcon} />
-          </TouchableOpacity>
+            {/* Custom Login Button */}
+            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+              <Text style={styles.loginButtonText}>Log In</Text>
+            </TouchableOpacity>
+
+            <View style={styles.socialLogin}>
+              <TouchableOpacity onPress={() => console.log('Login with Google')}>
+                <Image source={require('../assets/LoginAssets/Google.png')} style={styles.socialIcon} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => console.log('Login with GitHub')}>
+                <Image source={require('../assets/images/icon.png')} style={styles.socialIcon} />
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.signupText}>
+              Don’t have an account? <Link href="/signup" style={styles.signupLink}>Sign Up</Link>
+            </Text>
+          </View>
         </View>
-        <Text style={styles.signupText}>
-          Don’t have an account? <Link href="/signup" style={styles.signupLink} onPress={() => console.log('Navigate to Signup')}>Sign Up</Link>
-        </Text>
-      </View>
-    </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -60,6 +76,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#00B207',
+  },
+  inner: {
+    flex: 1,
+    justifyContent: 'space-between',
   },
   topContainer: {
     flex: 1,
