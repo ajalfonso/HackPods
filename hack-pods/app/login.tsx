@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  Image,
   TouchableOpacity,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
@@ -24,12 +23,22 @@ const LoginPage = () => {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'height' : undefined}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.inner}>
           <View style={styles.topContainer}>
-            <Image source={require('../assets/LoginAssets/Logo.png')} style={styles.logo} />
+            {/* 2x2 Grid of White Circles */}
+            <View style={styles.gridContainer}>
+              <View style={styles.row}>
+                <View style={styles.circle}></View>
+                <View style={styles.circle}></View>
+              </View>
+              <View style={styles.row}>
+                <View style={styles.circle}></View>
+                <View style={styles.circle}></View>
+              </View>
+            </View>
           </View>
           <View style={styles.bottomContainer}>
             <Text style={styles.title}>Login</Text>
@@ -37,8 +46,10 @@ const LoginPage = () => {
               style={styles.input}
               placeholder="Email"
               placeholderTextColor="#A1A1A1"
-              value={password}
-              onChangeText={setPassword}
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
             />
             <TextInput
               style={styles.input}
@@ -56,10 +67,10 @@ const LoginPage = () => {
 
             <View style={styles.socialLogin}>
               <TouchableOpacity onPress={() => console.log('Login with Google')}>
-                <Image source={require('../assets/LoginAssets/Google.png')} style={styles.socialIcon} />
+                <View style={styles.socialIcon}></View>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => console.log('Login with GitHub')}>
-                <Image source={require('../assets/images/icon.png')} style={styles.socialIcon} />
+                <View style={styles.socialIcon}></View>
               </TouchableOpacity>
             </View>
             <Text style={styles.signupText}>
@@ -87,6 +98,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#00B207',
   },
+  gridContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 0,
+  },
+  circle: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#fff',
+    margin: 10,
+  },
   bottomContainer: {
     flex: 2,
     backgroundColor: 'white',
@@ -94,11 +121,6 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     paddingTop: 35,
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    marginBottom: 20,
   },
   title: {
     fontSize: 36,
@@ -138,6 +160,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     marginHorizontal: 10,
+    backgroundColor: '#D9D9D9', // Placeholder color for social icons
   },
   signupText: {
     fontSize: 16,
