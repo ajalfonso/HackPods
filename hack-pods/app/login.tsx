@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Link } from "expo-router";
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -48,7 +49,7 @@ const LoginPage = () => {
           </TouchableOpacity>
         </View>
         <Text style={styles.signupText}>
-          Don’t have an account? <Text style={styles.signupLink} onPress={() => console.log('Navigate to Signup')}>Sign Up</Text>
+          Don’t have an account? <Link href="/signup" style={styles.signupLink} onPress={() => console.log('Navigate to Signup')}>Sign Up</Link>
         </Text>
       </View>
     </View>
