@@ -13,6 +13,11 @@ export default function Index() {
       }}
     >
       {tasks?.map(({ _id, text }) => <Text key={_id}>{text}</Text>)}
+      <Text
+      style={{
+        fontWeight: 900,
+      }}>
+      </Text>
     </View>
   );
 }
