@@ -11,6 +11,7 @@ export default function RootLayout() {
     <ConvexProvider client={convex}>
       <Stack>
         <Stack.Screen name="index" />
+        <Stack.Screen name="login" />
       </Stack>
     </ConvexProvider>
   );
