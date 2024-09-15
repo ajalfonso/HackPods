@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, TextInput, Dimensions } from 'react-native';
 
 const windowWidth = Dimensions.get('window').width; // Get the screen width to ensure the green section stretches fully
@@ -30,11 +31,65 @@ const InterestsGoalsPage: React.FC = () => {
       setSelectedGoals(selectedGoals.filter(item => item !== goal));
     } else {
       setSelectedGoals([...selectedGoals, goal]);
+=======
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native';
+
+const windowWidth = Dimensions.get('window').width; // Get the screen width to ensure the green section stretches fully
+
+const InterestsPage: React.FC = () => {
+  const initialSkills = ['Back-end', 'Front-end', 'Figma', 'HTML', 'Python', 'C++', 'CSS', 'JavaScript'];
+  const initialLookingFor = ['Back-end', 'Front-end', 'Figma', 'HTML', 'Python', 'C++', 'CSS', 'JavaScript'];
+
+  // State to track selected skills and looking for items
+  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+  const [selectedLookingFor, setSelectedLookingFor] = useState<string[]>([]);
+
+  // States to hold custom input values for new skills or looking for items
+  const [newSkill, setNewSkill] = useState<string>('');
+  const [newLookingFor, setNewLookingFor] = useState<string>('');
+
+  // State to hold the updated skills and looking for arrays
+  const [skills, setSkills] = useState(initialSkills);
+  const [lookingFor, setLookingFor] = useState(initialLookingFor);
+
+  // Toggle function for skills selection
+  const toggleSkill = (skill: string) => {
+    if (selectedSkills.includes(skill)) {
+      setSelectedSkills(selectedSkills.filter(item => item !== skill));
+    } else {
+      setSelectedSkills([...selectedSkills, skill]);
+    }
+  };
+
+  // Toggle function for looking for selection
+  const toggleLookingFor = (item: string) => {
+    if (selectedLookingFor.includes(item)) {
+      setSelectedLookingFor(selectedLookingFor.filter(el => el !== item));
+    } else {
+      setSelectedLookingFor([...selectedLookingFor, item]);
+    }
+  };
+
+  // Function to add a new skill
+  const addSkill = () => {
+    if (newSkill.trim() !== '' && !skills.includes(newSkill)) {
+      setSkills([...skills, newSkill]);
+      setNewSkill(''); // Clear the input field
+    }
+  };
+
+  // Function to add a new looking for item
+  const addLookingFor = () => {
+    if (newLookingFor.trim() !== '' && !lookingFor.includes(newLookingFor)) {
+      setLookingFor([...lookingFor, newLookingFor]);
+      setNewLookingFor(''); // Clear the input field
+>>>>>>> 430345d13a019cc27fbc4d47bc47a9601f0aed2e
     }
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+<<<<<<< HEAD
       {/* Interests Section */}
       <View style={styles.textRow}>
         <Text style={styles.title}>interests</Text>
@@ -112,6 +167,58 @@ const InterestsGoalsPage: React.FC = () => {
             </TouchableOpacity>
           ))}
         </View>
+=======
+      <Text style={styles.title}>Interests</Text>
+      <Text style={styles.subtitle}>Show off your skills and what you're looking for</Text>
+
+      {/* Main Connected Section */}
+      <View style={styles.mainSectionContainer}>
+        {/* Your Skills Section */}
+          <Text style={styles.sectionTitle}>Your Interests</Text>
+          <View style={styles.skillsGrid}>
+            {skills.map((skill, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styles.skillItem,
+                  selectedSkills.includes(skill) ? styles.selectedItem : styles.unselectedItem,
+                  (skill === 'CSS' || skill === 'JavaScript') && styles.roundedItem // Apply rounded corners to last row elements
+                ]}
+                onPress={() => toggleSkill(skill)}
+              >
+                <Text style={styles.skillText}>{skill}</Text>
+              </TouchableOpacity>
+            ))}
+            {/* Add Skill Button */}
+            <TouchableOpacity style={[styles.addButton, styles.roundedItem]} onPress={addSkill}>
+              <Text style={styles.addButtonText}>+</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+      {/* Looking for Section */}
+      <View style={styles.mainSectionContainer}>
+        <Text style={styles.sectionTitle}>Looking for...</Text>
+        <View style={styles.skillsGrid}>
+          {lookingFor.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[
+                styles.skillItem,
+                selectedLookingFor.includes(item) ? styles.selectedItem : styles.unselectedItem,
+                (item === 'CSS' || item === 'JavaScript') && styles.roundedItem // Apply rounded corners to last row elements
+              ]}
+              onPress={() => toggleLookingFor(item)}
+            >
+              <Text style={styles.skillText}>{item}</Text>
+            </TouchableOpacity>
+          ))}
+          {/* Add Looking For Button */}
+          <TouchableOpacity style={[styles.addButton, styles.roundedItem]} onPress={addLookingFor}>
+            <Text style={styles.addButtonText}>+</Text>
+          </TouchableOpacity>
+        </View>
+>>>>>>> 430345d13a019cc27fbc4d47bc47a9601f0aed2e
       </View>
 
       {/* Bottom Navigation Dots */}
@@ -130,6 +237,7 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#ffffff',
   },
+<<<<<<< HEAD
   textRow: {
     flexDirection: 'row', // Align items in a row
     alignItems: 'center',  // Vertically align the text components in the center
@@ -144,17 +252,41 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     color: '#666',
+=======
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 16,
+    marginBottom: 20,
+>>>>>>> 430345d13a019cc27fbc4d47bc47a9601f0aed2e
   },
   mainSectionContainer: {
     backgroundColor: '#00b140', // Green background for main section
     padding: 20,
     borderRadius: 20,
     marginBottom: 20,
+<<<<<<< HEAD
     width: windowWidth - 40, // Ensures the green background extends to the full width of the screen with padding
+=======
+    width: windowWidth, // Ensures the green background extends to the full width of the screen
+  },
+  skillsContainer: {
+    padding: 15, // Transparent background for skills container
+  },
+  lookingForContainer: {
+    backgroundColor: '#00b140', // Green background for "Looking for" container
+    padding: 15,
+    borderRadius: 15,
+    marginTop: 10, // Space between sections
+>>>>>>> 430345d13a019cc27fbc4d47bc47a9601f0aed2e
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
+<<<<<<< HEAD
     color: '#FFFFFF', // White text for section titles
     marginBottom: 10,
   },
@@ -194,6 +326,28 @@ const styles = StyleSheet.create({
     backgroundColor: '#A6E4A8', // Lighter shade of green when selected
     borderWidth: 1, // Ensure border width is the same
     borderColor: '#00b140', // Keep border color consistent
+=======
+    color: '#FFFFFF', // White text for both sections
+    marginBottom: 10,
+  },
+  skillsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+  },
+  skillItem: {
+    padding: 10,
+    borderRadius: 8,
+    margin: 5,
+    minWidth: 80,
+    alignItems: 'center',
+  },
+  roundedItem: {
+    borderRadius: 8, // Rounded corners for the last row elements
+  },
+  selectedItem: {
+    backgroundColor: '#A6E4A8', // Lighter shade of green when selected
+>>>>>>> 430345d13a019cc27fbc4d47bc47a9601f0aed2e
   },
   unselectedItem: {
     backgroundColor: '#fff', // White background when not selected
@@ -216,6 +370,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   addButtonText: {
+<<<<<<< HEAD
     fontSize: 18,
     color: '#00b140',
     fontWeight: 'bold',
@@ -236,6 +391,12 @@ const styles = StyleSheet.create({
     minHeight: 60,
     textAlignVertical: 'top',
   },
+=======
+    fontSize: 24,
+    color: '#00b140',
+    fontWeight: 'bold',
+  },
+>>>>>>> 430345d13a019cc27fbc4d47bc47a9601f0aed2e
   navDotsContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -253,4 +414,8 @@ const styles = StyleSheet.create({
   },
 });
 
+<<<<<<< HEAD
 export default InterestsGoalsPage;
+=======
+export default InterestsPage;
+>>>>>>> 430345d13a019cc27fbc4d47bc47a9601f0aed2e
