@@ -31,8 +31,8 @@ const cohere = new CohereClient({
 const testProfile = {
   id: "user-0",
   name: "AJ",
-  //skills: ["SQL", "Database Management", "NoSQL"],
-  skills: ["React", "HTML", "CSS"],
+  skills: ["SQL", "Database Management", "NoSQL"],
+  //skills: ["React", "HTML", "CSS"],
   //skills: ["volleyball"],
 };
 
@@ -59,11 +59,7 @@ const baseTeams = [
     ],
     totalskills: [
       "React",
-      "Node.js",
-      "Python",
-      "Machine Learning",
-      "UI/UX Design",
-      "Figma",
+      "Node.js"
     ],
   },
   {
@@ -87,14 +83,8 @@ const baseTeams = [
       { id: "user-9", name: "Liam", skills: ["DevOps", "Docker"] },
     ],
     totalskills: [
-      "Go",
-      "Kubernetes",
-      "Python",
-      "Flask",
-      "React",
-      "Redux",
-      "DevOps",
-      "Docker",
+      "Hardware",
+      "Cybersecurity"
     ],
   },
   {
@@ -105,7 +95,7 @@ const baseTeams = [
       { id: "user-10", name: "Olivia", skills: ["TypeScript", "Next.js"] },
       { id: "user-11", name: "William", skills: ["Python", "Django"] },
     ],
-    totalskills: ["TypeScript", "Next.js", "Python", "Django"],
+    totalskills: ["react.js", "html", "css", "typescript"],
   },
 ];
 
@@ -123,41 +113,42 @@ let rankedTeams: number[] = [];
 let teamsData: [] = [];
 
 //async function getRanks() {
-(async () => {
-  const chatResponse = await cohere.chat({
-    message: `With a max team size of 4 for a hackathon, what teammates should someone with the following skills: ${testProfile.skills.join(", ")} be looking for? Format as an ordered compact list and and list one or two word skills of the role`,
-  });
-
-  const allSkills = [];
-  console.log(chatResponse.text);
-
-  for (const team of baseTeams) {
-    allSkills.push(team.totalskills.join(", "));
-  }
-
-  console.log(allSkills);
-
-  const rankings = await cohere.rerank({
-    documents: allSkills,
-    query: `Match the most relevant skills to the following list: ${chatResponse.text}.`,
-    model: "rerank-english-v3.0",
-  });
-
-  console.log(rankings.results);
-
-  for (const team in rankings.results) {
-    console.log(rankings.results[team]["index"]);
-    rankedTeams.push(rankings.results[team]["index"]);
-  }
-
-  for (const rank in rankedTeams) {
-    teamsData.push(baseTeams[0]);
-  }
-
-  //const teamsData = reorderList(teamsData, rankedTeams)
-  //return Promise.resolve(chatResponse); // Return the chat data as a Promise
-})();
-
+    (async () => {
+        const chatResponse = await cohere.chat({
+          message: `With a max team size of 4 for a hackathon, what teammates should someone with the following skills: ${testProfile.skills.join(", ")} be looking for? Format as an ordered compact list and list one or two word skills of the role`,
+        });
+      
+        const allSkills = [];
+        console.log(chatResponse.text);
+      
+        // Gather all the total skills from baseTeams
+        for (const team of baseTeams) {
+          allSkills.push(team.totalskills.join(", "));
+        }
+      
+        console.log(allSkills);
+      
+        const rankings = await cohere.rerank({
+          documents: allSkills,
+          query: `Match the most relevant skills to the following list: ${chatResponse.text}.`,
+          model: "rerank-english-v3.0",
+        });
+      
+        console.log(rankings.results);
+      
+        // Correctly iterate over ranking results
+        for (const result of rankings.results) {
+          console.log(result["index"]);
+          rankedTeams.push(result["index"]);
+        }
+      
+        // Reorder teams based on rankedTeams
+        teamsData = reorderList(baseTeams, rankedTeams);
+      
+        console.log("Reordered Teams Data: ", teamsData);
+      
+        // Now teamsData is ordered and can be used for swiping
+})();      
 //const teamsData = reorderList(baseTeams, rankedTeams);
 
 // Mapping user icons (You can replace this with actual user images)
