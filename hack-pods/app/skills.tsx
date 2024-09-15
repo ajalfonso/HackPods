@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { Link } from "expo-router"; // Import Link
 
 const windowWidth = Dimensions.get('window').width; // Get the screen width to ensure the green section stretches fully
 
@@ -138,6 +139,13 @@ const SkillsPage: React.FC = () => {
         </View>
       </View>
 
+      {/* Continue to Interests Button */}
+      <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.nextButton}>
+          <Link href="/interests"><Text style={styles.nextButtonText}>Continue to Interests</Text></Link>
+          </TouchableOpacity>
+      </View>
+
       {/* Bottom Navigation Dots */}
       <View style={styles.navDotsContainer}>
         <View style={styles.dot} />
@@ -252,6 +260,22 @@ const styles = StyleSheet.create({
   addButtonText: {
     fontSize: 16,
     color: '#00b140',
+    fontWeight: 'bold',
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  nextButton: {
+    backgroundColor: '#00b140',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    width: '80%',
+  },
+  nextButtonText: {
+    color: '#FFF',
+    fontSize: 18,
     fontWeight: 'bold',
   },
   navDotsContainer: {

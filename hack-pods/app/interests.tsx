@@ -8,6 +8,7 @@ import {
   TextInput,
   Dimensions,
 } from "react-native";
+import { Link } from "expo-router"; // Import Link from expo-router
 
 const windowWidth = Dimensions.get("window").width; // Get the screen width to ensure the green section stretches fully
 
@@ -139,6 +140,13 @@ const InterestsGoalsPage: React.FC = () => {
             </TouchableOpacity>
           ))}
         </View>
+      </View>
+
+      {/* Continue to Swipe Button */}
+      <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.nextButton}>
+          <Link href="/profile"> <Text style={styles.nextButtonText}>Continue to Profile</Text></Link>
+          </TouchableOpacity>
       </View>
 
       {/* Bottom Navigation Dots */}
@@ -277,6 +285,22 @@ const styles = StyleSheet.create({
   },
   activeDot: {
     backgroundColor: "#00b140",
+  },
+  buttonContainer: {
+    alignItems: "center",
+    marginTop: 20,
+  },
+  nextButton: {
+    backgroundColor: "#00b140",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    width: "80%",
+  },
+  nextButtonText: {
+    color: "#FFF",
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
 

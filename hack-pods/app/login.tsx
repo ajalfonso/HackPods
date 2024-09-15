@@ -62,7 +62,7 @@ const LoginPage = () => {
 
             {/* Custom Login Button */}
             <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-              <Text style={styles.loginButtonText}>Log In</Text>
+              <Link href="/info"><Text style={styles.loginButtonText}>Log In</Text></Link>
             </TouchableOpacity>
 
             <View style={styles.socialLogin}>

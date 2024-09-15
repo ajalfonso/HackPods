@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // For the paper plane icon
 import { MaterialIcons } from '@expo/vector-icons'; // For the default profile icon
+import { Link } from "expo-router"; // Import Link from expo-router
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -102,17 +103,12 @@ const ProfilePage: React.FC = () => {
           </View>
 
           {/* Message Section */}
-          <View style={styles.messageContainer}>
-            <TextInput
-              style={styles.messageInput}
-              placeholder="Send a message..."
-              value={message}
-              onChangeText={setMessage}
-            />
-            <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
-              <Ionicons name="paper-plane-outline" size={24} color="black" />
-            </TouchableOpacity>
-          </View>
+          <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.nextButton}>
+                    <Link href="/swipe"> <Text style={styles.nextButtonText}>Let's Start!</Text></Link>
+                </TouchableOpacity>
+            </View>
+      
         </ScrollView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
@@ -220,6 +216,23 @@ const styles = StyleSheet.create({
   sendButton: {
     padding: 10,
   },
+  buttonContainer: {
+    alignItems: "center",
+    marginTop: 20,
+  },
+  nextButton: {
+    backgroundColor: "#00b140",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    width: "80%",
+  },
+  nextButtonText: {
+    color: "#FFF",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+
 });
 
 export default ProfilePage;

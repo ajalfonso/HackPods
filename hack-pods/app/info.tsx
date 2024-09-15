@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from "expo-router";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
 
 const UserInfoPage = () => {
@@ -83,6 +84,15 @@ const UserInfoPage = () => {
                 multiline
                 numberOfLines={4}
               />
+            </View>
+
+            {/* Centered Button */}
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.button}>
+                <Link href="/skills">
+                  <Text style={styles.buttonText}>Continue to Skills</Text>
+                </Link>
+              </TouchableOpacity>
             </View>
 
             {/* Circles at the bottom */}
@@ -171,6 +181,22 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 5,
     textAlign: 'center',
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    marginTop: 20, // Adjust margin for better spacing
+  },
+  button: {
+    backgroundColor: '#00B207',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    width: '80%',
+  },
+  buttonText: {
+    color: '#FFF',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   footer: {
     flexDirection: 'row',
