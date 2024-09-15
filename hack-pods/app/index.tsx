@@ -18,6 +18,7 @@ export default function Index() {
       <Link href="/login">Login Menu</Link>
       <Link href="/skills">Skills Menu</Link>
       <Link href="/interests">Interests Menu</Link>
+      <Link href="/swipe">Swipe</Link>
     </View>
     
   );

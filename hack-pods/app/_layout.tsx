@@ -14,6 +14,7 @@ export default function RootLayout() {
         <Stack.Screen name="login" />
         <Stack.Screen name="skills" />
         <Stack.Screen name="interests" />
+        <Stack.Screen name="swipe"/>
       </Stack>
     </ConvexProvider>
   );
