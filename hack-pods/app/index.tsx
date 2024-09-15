@@ -16,6 +16,9 @@ export default function Index() {
     >
       {/* {tasks?.map(({ _id, text }) => <Text key={_id}>{text}</Text>)} */}
       <Link href="/login">Login Menu</Link>
+      <Link href="/skills">Skills Menu</Link>
+      <Link href="/interests">Interests Menu</Link>
     </View>
+    
   );
 }
