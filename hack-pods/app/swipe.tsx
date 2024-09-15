@@ -16,22 +16,53 @@ import Animated, {
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.25;
 
-// Hardcoded data for a team (This will later be fetched from your database)
-const teamData = {
-  teamId: 'team-1',
-  teamName: 'Hackathon Heroes',
-  teamGoal: 'Win the hackathon!',
-  members: [
-    { id: 'user-1', name: 'Chris', skills: ['React', 'Node.js'] },
-    { id: 'user-2', name: 'Ashley', skills: ['Python', 'Machine Learning'] },
-    { id: 'user-3', name: 'Kevin', skills: ['UI/UX Design', 'Figma'] },
-  ],
-};
+// Hardcoded data for multiple teams
+const teamsData = [
+  {
+    teamId: 'team-1',
+    teamName: 'Hackathon Heroes',
+    teamGoal: 'Win the hackathon!',
+    members: [
+      { id: 'user-1', name: 'Chris', skills: ['React', 'Node.js'] },
+      { id: 'user-2', name: 'Ashley', skills: ['Python', 'Machine Learning'] },
+      { id: 'user-3', name: 'Kevin', skills: ['UI/UX Design', 'Figma'] },
+    ],
+  },
+  {
+    teamId: 'team-2',
+    teamName: 'Code Crushers',
+    teamGoal: 'Build the best app!',
+    members: [
+      { id: 'user-4', name: 'Michael', skills: ['Java', 'Spring Boot'] },
+      { id: 'user-5', name: 'Jane', skills: ['JavaScript', 'React Native'] },
+    ],
+  },
+  {
+    teamId: 'team-3',
+    teamName: 'Tech Titans',
+    teamGoal: 'Learn and collaborate!',
+    members: [
+      { id: 'user-6', name: 'Daniel', skills: ['Go', 'Kubernetes'] },
+      { id: 'user-7', name: 'Sophia', skills: ['Python', 'Flask'] },
+      { id: 'user-8', name: 'Emma', skills: ['React', 'Redux'] },
+      { id: 'user-9', name: 'Liam', skills: ['DevOps', 'Docker'] },
+    ],
+  },
+  {
+    teamId: 'team-4',
+    teamName: 'Dev Wizards',
+    teamGoal: 'Network and have fun!',
+    members: [
+      { id: 'user-10', name: 'Olivia', skills: ['TypeScript', 'Next.js'] },
+      { id: 'user-11', name: 'William', skills: ['Python', 'Django'] },
+    ],
+  },
+];
 
 // Mapping user icons (You can replace this with actual user images)
 const userIcon = require('../assets/images/icon.png'); // Example user icon
 
-const SwipeCard = ({ name, onSwipeLeft, onSwipeRight }) => {
+const SwipeCard = ({ team, onSwipeLeft, onSwipeRight }) => {
   const translateX = useSharedValue(0);
   const rotate = useSharedValue(0);
   const translateY = useSharedValue(-SCREEN_HEIGHT); // Start off the screen
@@ -59,16 +90,33 @@ const SwipeCard = ({ name, onSwipeLeft, onSwipeRight }) => {
     },
     onEnd: (event) => {
       if (event.translationX > SWIPE_THRESHOLD) {
-        translateX.value = withSpring(SCREEN_WIDTH, {}, () => {
-          runOnJS(onSwipeRight)();
-        });
+        // Swipe right (Adjust swipe speed here)
+        translateX.value = withSpring(
+          SCREEN_WIDTH,
+          {
+            damping: 20, // Adjust damping to control the bounce and friction
+            stiffness: 150, // Stiffness controls how tight or loose the spring is
+          },
+          () => {
+            runOnJS(onSwipeRight)();
+          }
+        );
       } else if (event.translationX < -SWIPE_THRESHOLD) {
-        translateX.value = withSpring(-SCREEN_WIDTH, {}, () => {
-          runOnJS(onSwipeLeft)();
-        });
+        // Swipe left (Adjust swipe speed here)
+        translateX.value = withSpring(
+          -SCREEN_WIDTH,
+          {
+            damping: 20,
+            stiffness: 150,
+          },
+          () => {
+            runOnJS(onSwipeLeft)();
+          }
+        );
       } else {
-        translateX.value = withSpring(0);
-        rotate.value = withSpring(0);
+        // Reset to the center if not swiped far enough
+        translateX.value = withSpring(0, { damping: 15, stiffness: 100 });
+        rotate.value = withSpring(0, { damping: 15, stiffness: 100 });
       }
     },
   });
@@ -76,11 +124,11 @@ const SwipeCard = ({ name, onSwipeLeft, onSwipeRight }) => {
   return (
     <PanGestureHandler onGestureEvent={gestureHandler}>
       <Animated.View style={[styles.card, cardStyle]}>
-        <Text style={styles.teamName}>{teamData.teamName}</Text>
+        <Text style={styles.teamName}>{team.teamName}</Text>
 
         {/* Circles for members */}
         <View style={styles.memberIcons}>
-          {teamData.members.map((member, index) => (
+          {team.members.map((member, index) => (
             <Image
               key={member.id}
               source={userIcon}
@@ -88,14 +136,14 @@ const SwipeCard = ({ name, onSwipeLeft, onSwipeRight }) => {
             />
           ))}
           {/* Empty circles for unfilled member spots (e.g., max 4 members) */}
-          {[...Array(4 - teamData.members.length)].map((_, index) => (
+          {[...Array(4 - team.members.length)].map((_, index) => (
             <View key={`empty-${index}`} style={styles.circleEmpty} />
           ))}
         </View>
 
         {/* Member List */}
         <Text style={styles.subTitle}>Members</Text>
-        {teamData.members.map((member) => (
+        {team.members.map((member) => (
           <Text key={member.id} style={styles.memberText}>
             {member.name}
           </Text>
@@ -103,12 +151,12 @@ const SwipeCard = ({ name, onSwipeLeft, onSwipeRight }) => {
 
         {/* Team Goal */}
         <Text style={styles.subTitle}>Goal</Text>
-        <Text style={styles.goalText}>{teamData.teamGoal}</Text>
+        <Text style={styles.goalText}>{team.teamGoal}</Text>
 
         {/* Skills */}
         <Text style={styles.subTitle}>Skills</Text>
         <View style={styles.skillsContainer}>
-          {teamData.members.flatMap((member) => member.skills).map((skill, index) => (
+          {team.members.flatMap((member) => member.skills).map((skill, index) => (
             <Text key={index} style={styles.skillItem}>
               {skill}
             </Text>
@@ -125,7 +173,6 @@ const SwipeCard = ({ name, onSwipeLeft, onSwipeRight }) => {
 };
 
 const Swipe = () => {
-  const [profiles, setProfiles] = useState(['Team 1', 'Team 2']);
   const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
 
   const handleSwipeLeft = () => {
@@ -138,10 +185,10 @@ const Swipe = () => {
 
   return (
     <GestureHandlerRootView style={styles.container}>
-      {currentProfileIndex < profiles.length ? (
+      {currentProfileIndex < teamsData.length ? (
         <SwipeCard
-          key={profiles[currentProfileIndex]}
-          name={profiles[currentProfileIndex]}
+          key={teamsData[currentProfileIndex].teamId}
+          team={teamsData[currentProfileIndex]}
           onSwipeLeft={handleSwipeLeft}
           onSwipeRight={handleSwipeRight}
         />
