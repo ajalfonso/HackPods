@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Logo from "../assets/LoginAssets/Logo.png";
 import {
   View,
   Text,
@@ -8,7 +9,8 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  Platform
+  Platform,
+  Image, // Added Image import
 } from 'react-native';
 import { Link } from "expo-router";
 
@@ -28,17 +30,8 @@ const LoginPage = () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.inner}>
           <View style={styles.topContainer}>
-            {/* 2x2 Grid of White Circles */}
-            <View style={styles.gridContainer}>
-              <View style={styles.row}>
-                <View style={styles.circle}></View>
-                <View style={styles.circle}></View>
-              </View>
-              <View style={styles.row}>
-                <View style={styles.circle}></View>
-                <View style={styles.circle}></View>
-              </View>
-            </View>
+            {/* Replace the grid of circles with the Logo */}
+            <Image source={Logo} style={styles.logo} />
           </View>
           <View style={styles.bottomContainer}>
             <Text style={styles.title}>Login</Text>
@@ -62,7 +55,9 @@ const LoginPage = () => {
 
             {/* Custom Login Button */}
             <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-              <Link href="/info"><Text style={styles.loginButtonText}>Log In</Text></Link>
+              <Link href="/info">
+                <Text style={styles.loginButtonText}>Log In</Text>
+              </Link>
             </TouchableOpacity>
 
             <View style={styles.socialLogin}>
@@ -74,7 +69,10 @@ const LoginPage = () => {
               </TouchableOpacity>
             </View>
             <Text style={styles.signupText}>
-              Don’t have an account? <Link href="/signup" style={styles.signupLink}>Sign Up</Link>
+              Don’t have an account?{' '}
+              <Link href="/signup" style={styles.signupLink}>
+                Sign Up
+              </Link>
             </Text>
           </View>
         </View>
@@ -98,22 +96,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#00B207',
   },
-  gridContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginVertical: 0,
-  },
-  circle: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#fff',
-    margin: 10,
-  },
+  // Removed gridContainer, row, and circle styles since they're no longer needed
   bottomContainer: {
     flex: 2,
     backgroundColor: 'white',
@@ -121,6 +104,11 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     paddingTop: 35,
+  },
+  logo: {
+    width: 150, // Adjust as needed
+    height: 150, // Adjust as needed
+    resizeMode: 'contain',
   },
   title: {
     fontSize: 36,
@@ -160,7 +148,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     marginHorizontal: 10,
-    backgroundColor: '#D9D9D9', // Placeholder color for social icons
+    backgroundColor: '#D9D9D9', // Placeholder for social icons
   },
   signupText: {
     fontSize: 16,
