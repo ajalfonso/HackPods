@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native';
 
-const windowWidth = Dimensions.get('window').width; // Get the screen width to make sure the green section stretches fully
+const windowWidth = Dimensions.get('window').width; // Get the screen width to ensure the green section stretches fully
 
-const SkillsPage: React.FC = () => {
+const InterestsPage: React.FC = () => {
   const initialSkills = ['Back-end', 'Front-end', 'Figma', 'HTML', 'Python', 'C++', 'CSS', 'JavaScript'];
   const initialLookingFor = ['Back-end', 'Front-end', 'Figma', 'HTML', 'Python', 'C++', 'CSS', 'JavaScript'];
 
   // State to track selected skills and looking for items
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const [selectedLookingFor, setSelectedLookingFor] = useState<string[]>([]);
-
-  // State to track the selected experience level
-  const [selectedExperience, setSelectedExperience] = useState<'Low' | 'Medium' | 'High'>('Low');
 
   // States to hold custom input values for new skills or looking for items
   const [newSkill, setNewSkill] = useState<string>('');
@@ -58,81 +55,55 @@ const SkillsPage: React.FC = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>skills</Text>
-      <Text style={styles.subtitle}>3. Show off your skills</Text>
+      <Text style={styles.title}>Interests</Text>
+      <Text style={styles.subtitle}>Show off your skills and what you're looking for</Text>
 
       {/* Main Connected Section */}
       <View style={styles.mainSectionContainer}>
-        {/* Experience Section */}
-        <View style={styles.innerSection}>
-          <Text style={styles.sectionTitle}>Experience</Text>
-          <View style={styles.experienceToggle}>
-            {['Low', 'Medium', 'High'].map((level, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  styles.experienceButton,
-                  selectedExperience === level && styles.activeExperienceButton
-                ]}
-                onPress={() => setSelectedExperience(level as 'Low' | 'Medium' | 'High')}
-              >
-                <Text style={[
-                  styles.experienceText,
-                  selectedExperience === level && styles.activeExperienceText
-                ]}>
-                  {level}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-
         {/* Your Skills Section */}
-        <View style={styles.innerSection}>
-          <Text style={styles.sectionTitle}>Your Skills</Text>
-          <View style={styles.skillsContainer}>
+          <Text style={styles.sectionTitle}>Your Interests</Text>
+          <View style={styles.skillsGrid}>
             {skills.map((skill, index) => (
               <TouchableOpacity
                 key={index}
                 style={[
                   styles.skillItem,
-                  selectedSkills.includes(skill) ? styles.selectedItem : styles.unselectedItem
+                  selectedSkills.includes(skill) ? styles.selectedItem : styles.unselectedItem,
+                  (skill === 'CSS' || skill === 'JavaScript') && styles.roundedItem // Apply rounded corners to last row elements
                 ]}
                 onPress={() => toggleSkill(skill)}
               >
                 <Text style={styles.skillText}>{skill}</Text>
               </TouchableOpacity>
             ))}
-
             {/* Add Skill Button */}
-            <TouchableOpacity style={styles.addButton} onPress={addSkill}>
+            <TouchableOpacity style={[styles.addButton, styles.roundedItem]} onPress={addSkill}>
               <Text style={styles.addButtonText}>+</Text>
             </TouchableOpacity>
           </View>
         </View>
 
-        {/* Looking for Section */}
-        <View style={styles.innerSection}>
-          <Text style={styles.sectionTitle}>Looking for...</Text>
-          <View style={styles.skillsContainer}>
-            {lookingFor.map((item, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  styles.skillItem,
-                  selectedLookingFor.includes(item) ? styles.selectedItem : styles.unselectedItem
-                ]}
-                onPress={() => toggleLookingFor(item)}
-              >
-                <Text style={styles.skillText}>{item}</Text>
-              </TouchableOpacity>
-            ))}
-
-            {/* Add Looking For Button */}
-            <TouchableOpacity style={styles.addButton} onPress={addLookingFor}>
-              <Text style={styles.addButtonText}>+</Text>
+      {/* Looking for Section */}
+      <View style={styles.mainSectionContainer}>
+        <Text style={styles.sectionTitle}>Looking for...</Text>
+        <View style={styles.skillsGrid}>
+          {lookingFor.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[
+                styles.skillItem,
+                selectedLookingFor.includes(item) ? styles.selectedItem : styles.unselectedItem,
+                (item === 'CSS' || item === 'JavaScript') && styles.roundedItem // Apply rounded corners to last row elements
+              ]}
+              onPress={() => toggleLookingFor(item)}
+            >
+              <Text style={styles.skillText}>{item}</Text>
             </TouchableOpacity>
-          </View>
+          ))}
+          {/* Add Looking For Button */}
+          <TouchableOpacity style={[styles.addButton, styles.roundedItem]} onPress={addLookingFor}>
+            <Text style={styles.addButtonText}>+</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -162,46 +133,28 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   mainSectionContainer: {
-    backgroundColor: '#00b140',
+    backgroundColor: '#00b140', // Green background for main section
     padding: 20,
     borderRadius: 20,
     marginBottom: 20,
     width: windowWidth, // Ensures the green background extends to the full width of the screen
   },
-  innerSection: {
-    marginBottom: 20,
+  skillsContainer: {
+    padding: 15, // Transparent background for skills container
+  },
+  lookingForContainer: {
+    backgroundColor: '#00b140', // Green background for "Looking for" container
+    padding: 15,
+    borderRadius: 15,
+    marginTop: 10, // Space between sections
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#fff',
+    color: '#FFFFFF', // White text for both sections
     marginBottom: 10,
   },
-  experienceToggle: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    backgroundColor: '#ffffff',
-    borderRadius: 20,
-    paddingVertical: 10,
-  },
-  experienceButton: {
-    flex: 1,
-    alignItems: 'center',
-    paddingVertical: 10,
-  },
-  activeExperienceButton: {
-    backgroundColor: '#00b140',
-    borderRadius: 20,
-  },
-  experienceText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#00b140',
-  },
-  activeExperienceText: {
-    color: '#ffffff',
-  },
-  skillsContainer: {
+  skillsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
@@ -213,8 +166,11 @@ const styles = StyleSheet.create({
     minWidth: 80,
     alignItems: 'center',
   },
+  roundedItem: {
+    borderRadius: 8, // Rounded corners for the last row elements
+  },
   selectedItem: {
-    backgroundColor: '#00b140', // Green background when selected
+    backgroundColor: '#A6E4A8', // Lighter shade of green when selected
   },
   unselectedItem: {
     backgroundColor: '#fff', // White background when not selected
@@ -228,7 +184,6 @@ const styles = StyleSheet.create({
   },
   addButton: {
     padding: 10,
-    borderRadius: 8,
     margin: 5,
     backgroundColor: '#fff',
     alignItems: 'center',
@@ -259,4 +214,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SkillsPage;
+export default InterestsPage;
