@@ -19,7 +19,7 @@ export default function Index() {
       <Link href="/signup">sign up Menu</Link>
       <Link href="/info">info Page</Link>
       <Link href="/interests">interests stuff</Link>
-
+      <Link href="/swipe">tinder for kids</Link>
     </View>
   );
 }
